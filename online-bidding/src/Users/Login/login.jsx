@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import './login.css';
 import { useNavigate } from "react-router-dom";
+//import image from './Bidding-process.jpg';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -20,10 +21,14 @@ function Login() {
         let path = `/user-registration`; 
         navigate(path);
     }
-  
+
   return (
+    <>
+      {/* <img src={image}></img> */}
+    <h1 className="login-title">Online Bidding Management</h1>
     <Container>
       <div className="login-wrapper">
+       
       <div className="login-form-container">
         <h2 className="login-title">Login</h2>
           <Form onSubmit={handleSubmit}>
@@ -56,7 +61,7 @@ function Login() {
           </Form>
         </div>
       </div>
-    </Container>
+    </Container></>
   );
 }
 
