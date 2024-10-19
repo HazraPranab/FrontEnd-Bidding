@@ -3,6 +3,6 @@ Online bidding application
 
 Steps to run the React application:
 
-npm install
-npm start
+1. npm install
+2. npm start
 
