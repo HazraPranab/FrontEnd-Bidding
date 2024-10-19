@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
@@ -31,14 +32,14 @@ const initialRows = [
     title: 'Car',
     description: '4 Wheeler',
     minbid: 100000,
-    enddate: new Date()
+    enddate: new Date(),
   },
   {
     id: 2,
     title: 'Bike',
     description: '2 Wheeler',
     minbid: 30000,
-    enddate: new Date()
+    enddate: new Date(),
   }
 ];
 
@@ -62,11 +63,15 @@ function EditToolbar(props) {
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
+      
     </GridToolbarContainer>
   );
 }
 
 export default function ViewTableComponent() {
+  let navigate = useNavigate();
+  // console.log(localStorage.getItem("LoggedinUser"))
+  
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -84,21 +89,21 @@ export default function ViewTableComponent() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  let navigate = useNavigate();
+  
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
   };
 
- 
-  
 
   const handleBidClick = (id) => () => {
     let path = `/place-bid`; 
-
-  //  history.push({ pathname: path, state: id });
-    navigate(path, {state: id});
-   
+    navigate(path, {state: id});   
   };
+
+  const handleLogout =() => () => {
+    localStorage.clear();
+    navigate(`/login`)
+  }
 
   const handleCancelClick = (id) => () => {
     setRowModesModel({
@@ -117,6 +122,12 @@ export default function ViewTableComponent() {
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     return updatedRow;
   };
+
+  if(localStorage.getItem("LoggedinUser")== null)
+    {
+      navigate('/login')
+    //   alert('User not logged in') 
+    }
 
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
@@ -201,7 +212,13 @@ export default function ViewTableComponent() {
     },
   ];
 
-  return (
+  return (<> 
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Button color="primary" startIcon={<LogoutIcon />} onClick={handleLogout()}>
+        Logout
+      </Button>
+      </div>
+      {localStorage.getItem("LoggedinUser") !=null  ? 
     <Box
       sx={{
         height: 500,
@@ -229,6 +246,6 @@ export default function ViewTableComponent() {
           toolbar: { setRows, setRowModesModel },
         }}
       />
-    </Box>
+    </Box>: alert("Not logged in user, Logout and login again",)}</>
   );
 }

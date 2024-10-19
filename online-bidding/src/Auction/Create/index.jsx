@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 // Import the CSS file
 import './create.css'; 
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CreateBid() {
     const location = useLocation();
      const data = location.state;
-     console.log(data)
+     
     // React.useEffect(() => {
     //     if (route.params?.id) {
     //         console.log(route.params?.id)
@@ -21,14 +22,18 @@ function CreateBid() {
           title: 'Car',
           description: '4 Wheeler',
           minbid: 100000,
-          enddate: new Date()
+          enddate: new Date(),
+          maxbid: 150000,
+          bid: 0,
         },
         {
           id: 2,
           title: 'Bike',
           description: '2 Wheeler',
           minbid: 30000,
-          enddate: new Date()
+          enddate: new Date(),
+          maxbid: 34000,
+          bid:0
         }
       ];
 
@@ -36,8 +41,10 @@ function CreateBid() {
   const [formData, setFormData] = useState({
     title: obj.title,
     description: obj.description,
-    bid: obj.minbid,
+    minbid: obj.minbid,
     enddate: Date(),
+    maxbid: obj.maxbid,
+    bid: obj.bid
   });
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -50,22 +57,26 @@ function CreateBid() {
       [name]: value,
     });
   };
-
+  let navigate = useNavigate(); 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData)
-    // if (formData.bid !== formData.enddate) {
-    //   setErrorMessage('bids do not match!');
-    //   setSuccessMessage('');
-    // } else {
-    //   setErrorMessage('');
-    //   setSuccessMessage('Registration Successful!');
-    // }
+    if(formData.bid < formData.minbid || formData.bid < formData.maxbid )
+    { 
+      setErrorMessage("Can't Place bid less than starting bid or maximum bid")
+      return;
+    }
+    else
+    {
+      setSuccessMessage("Bid Placed Successfully !!")
+      let path = `/view-auction`; 
+      navigate(path);
+    }
   };
 
   return (
     <div className="form-container">
-      <h2>Create Auction</h2>
+      <h2>Place Bid</h2>
       <form className="registration-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Title</label>
@@ -73,6 +84,7 @@ function CreateBid() {
             type="text"
             id="title"
             name="title"
+            disabled
             value={formData.title}
             onChange={handleChange}
             required
@@ -85,6 +97,7 @@ function CreateBid() {
             type="description"
             id="description"
             name="description"
+            disabled
             value={formData.description}
             onChange={handleChange}
             required
@@ -92,25 +105,38 @@ function CreateBid() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="bid">Bid</label>
+          <label htmlFor="bid">Starting Bid</label>
           <input
             type="number"
-            id="bid"
-            name="bid"
+            id="minbid"
+            name="minbid"
             min={0}
-            value={formData.bid}
+            value={formData.minbid}
+            disabled
             onChange={handleChange}
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="enddate">End Date</label>
+          <label htmlFor="maxbid">Max. Bid</label>
           <input
-            type="date"
-            id="enddate"
-            name="enddate"
-            value={formData.enddate}
+           
+            id="maxbid"
+            name="maxbid"
+            disabled
+            value={formData.maxbid}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="bid">Enter your Bid</label>
+          <input
+            type="bid"
+            id="bid"
+            name="bid"
+            value={formData.bid}
             onChange={handleChange}
             required
           />

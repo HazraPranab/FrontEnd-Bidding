@@ -9,14 +9,22 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  let navigate = useNavigate(); 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Login attempted with:', { email, password });
+    if(!email || !password)
+    {
+      alert("Please enter valid email and password")
+      return;
+    }
+    localStorage.setItem('LoggedinUser', email)
+    navigate('/view-auction')
+
     // Here you would typically send a request to your server
   };
 
-    let navigate = useNavigate(); 
+   
     const routeChange = () =>{ 
         let path = `/user-registration`; 
         navigate(path);

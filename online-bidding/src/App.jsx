@@ -7,6 +7,7 @@ import Login from './Users/Login/login';
 import Registration from './Users/Registartion';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -16,7 +17,7 @@ function App() {
 
         <Route path="/login" element={<Login />}/>
         <Route path="/place-bid" element={<CreateBid />}/>
-        <Route path="/update-auction" element={<UpdateAuction />}/>
+        {/* <Route path="/update-auction" element={<UpdateAuction />}/> */}
         <Route path="/view-auction" element={<ViewTableComponent />}/> 
         {/* <Route index element={<Home />} />
         <Route path="blogs" element={<Blogs />} />
