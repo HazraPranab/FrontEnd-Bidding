@@ -5,7 +5,6 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import {
@@ -21,7 +20,7 @@ import {
   randomId,
   randomArrayItem,
 } from '@mui/x-data-grid-generator';
-
+import './view.css';
 import { useNavigate } from "react-router-dom";
 
 
@@ -201,12 +200,10 @@ export default function ViewTableComponent() {
             onClick={handleDeleteClick(id)}
             color="inherit"
           />,
-          <GridActionsCellItem
-            icon={<CurrencyRupeeIcon />}
-            label="Place Bid"
-            onClick={handleBidClick(id)}
-            color="inherit"
-          />
+          
+          <Button onClick={handleBidClick(id)} className="button">
+          Bid Now
+        </Button>
         ];
       },
     },
@@ -246,6 +243,6 @@ export default function ViewTableComponent() {
           toolbar: { setRows, setRowModesModel },
         }}
       />
-    </Box>: alert("Not logged in user, Logout and login again",)}</>
+    </Box>: alert("Not logged in user, Logout and login again")}</>
   );
 }
